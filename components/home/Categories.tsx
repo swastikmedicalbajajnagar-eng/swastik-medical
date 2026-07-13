@@ -1,37 +1,61 @@
+import Card from "@/components/ui/Card";
+import Container from "@/components/ui/Container";
+import SectionHeading from "@/components/ui/SectionHeading";
+
+const categories = [
+  {
+    name: "Medicines",
+    icon: "💊",
+  },
+  {
+    name: "Personal Care",
+    icon: "🧴",
+  },
+  {
+    name: "Baby Care",
+    icon: "👶",
+  },
+  {
+    name: "Healthcare Devices",
+    icon: "🩺",
+  },
+  {
+    name: "Nutrition",
+    icon: "🍎",
+  },
+  {
+    name: "First Aid",
+    icon: "🩹",
+  },
+];
+
 export default function Categories() {
-    const categories = [
-      "Medicines",
-      "Personal Care",
-      "Baby Care",
-      "Healthcare Devices",
-      "Nutrition",
-      "First Aid",
-    ];
-  
-    return (
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6">
-  
-          <h2 className="text-3xl font-bold text-center mb-10">
-            Shop by Category
-          </h2>
-  
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            {categories.map((item) => (
-              <div
-                key={item}
-                className="bg-white rounded-2xl shadow-md p-6 text-center hover:shadow-xl transition cursor-pointer"
-              >
-                <div className="text-5xl mb-3">💊</div>
-  
+  return (
+    <section className="py-16 bg-gray-50">
+      <Container>
+
+        <SectionHeading
+          title="Shop by Category"
+          subtitle="Browse our healthcare products by category."
+        />
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+          {categories.map((category) => (
+            <Card key={category.name}>
+              <div className="text-center cursor-pointer">
+                <div className="text-5xl mb-4">
+                  {category.icon}
+                </div>
+
                 <h3 className="font-semibold">
-                  {item}
+                  {category.name}
                 </h3>
               </div>
-            ))}
-          </div>
-  
+            </Card>
+          ))}
         </div>
-      </section>
-    );
-  }
+
+      </Container>
+    </section>
+  );
+}
