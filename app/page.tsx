@@ -1,4 +1,5 @@
 import Hero from "@/components/home/Hero";
+import WhyChooseUs from "@/components/home/WhyChooseUs";
 import SearchBar from "@/components/home/SearchBar";
 import Categories from "@/components/home/Categories";
 import FeaturedProducts from "@/components/home/FeaturedProducts";
@@ -24,6 +25,7 @@ export default async function Home() {
       <SearchBar />
       <Categories categories={categories || []} />
       <FeaturedProducts products={products || []} />
+      <WhyChooseUs />
     </main>
   );
 }
