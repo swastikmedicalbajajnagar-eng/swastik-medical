@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import Container from "@/components/ui/Container";
-import Button from "@/components/ui/button";
 
+import AddToCartButton from "@/components/cart/AddToCartButton";
 type Props = {
   params: Promise<{
     slug: string;
@@ -67,8 +67,15 @@ export default async function ProductPage({ params }: Props) {
             </div>
 
             <div className="mt-8">
-              <Button>Add to Cart</Button>
-            </div>
+  <AddToCartButton
+    product={{
+      id: product.id,
+      product_name: product.product_name,
+      price: product.price,
+      image: product.image,
+    }}
+  />
+</div>
 
           </div>
 
