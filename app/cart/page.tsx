@@ -1,5 +1,5 @@
 "use client";
-
+import WhatsAppOrderButton from "@/components/cart/WhatsAppOrderButton";
 import Container from "@/components/ui/Container";
 import { useCart } from "@/context/CartContext";
 
@@ -45,11 +45,15 @@ export default function CartPage() {
               ))}
             </div>
 
-            <div className="mt-8 text-right">
-              <h2 className="text-2xl font-bold">
-                Total: ₹{total}
-              </h2>
-            </div>
+            <div className="mt-8">
+  <div className="flex justify-end">
+    <h2 className="text-2xl font-bold">
+      Total: ₹{total}
+    </h2>
+  </div>
+
+  <WhatsAppOrderButton />
+</div>
           </>
         )}
       </section>
