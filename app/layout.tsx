@@ -1,4 +1,5 @@
 import "./globals.css";
+import FloatingWhatsApp from "@/components/common/FloatingWhatsApp";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
@@ -15,10 +16,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Navbar />
-        {children}
-        <Footer />
-      </body>
+  <Navbar />
+  {children}
+  <Footer />
+  <FloatingWhatsApp />
+</body>
     </html>
   );
 }

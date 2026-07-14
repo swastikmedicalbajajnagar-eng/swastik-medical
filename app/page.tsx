@@ -1,4 +1,7 @@
 import Hero from "@/components/home/Hero";
+import GoogleMap from "@/components/home/GoogleMap";
+import ContactSection from "@/components/home/ContactSection";
+import HomeDeliveryBanner from "@/components/home/HomeDeliveryBanner";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import SearchBar from "@/components/home/SearchBar";
 import Categories from "@/components/home/Categories";
@@ -26,6 +29,9 @@ export default async function Home() {
       <Categories categories={categories || []} />
       <FeaturedProducts products={products || []} />
       <WhyChooseUs />
+      <HomeDeliveryBanner />
+      <ContactSection />
+      <GoogleMap />
     </main>
   );
 }

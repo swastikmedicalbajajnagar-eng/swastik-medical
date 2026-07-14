@@ -1,6 +1,6 @@
 import Button from "@/components/ui/button";
 import Container from "@/components/ui/Container";
-import Input from "@/components/ui/Input";
+import SearchInput from "@/components/search/SearchInput";
 
 export default function SearchBar() {
   return (
@@ -14,10 +14,7 @@ export default function SearchBar() {
 
           <div className="flex flex-col md:flex-row gap-4">
 
-            <Input
-              type="text"
-              placeholder="Search medicines, healthcare products..."
-            />
+            <SearchInput />
 
             <Button>
               Search
