@@ -15,23 +15,34 @@ export default function Navbar() {
           <Link href="/">Home</Link>
           <Link href="/">Shop</Link>
           <Link href="/">Categories</Link>
-          <Link href="/">Upload Rx</Link>
+          <Link href="/upload-prescription">
+  Upload Rx
+</Link>
           <Link href="/">Contact</Link>
         </nav>
-        <Link href="/cart" className="relative">
-  🛒
-  {cart.length > 0 && (
-    <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-      {cart.length}
-    </span>
-  )}
-</Link>
-        <a
-          href="tel:9860800296"
-          className="bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700"
-        >
-          Call Now
-        </a>
+        <div className="flex items-center gap-4">
+
+  <a
+    href="tel:9860800296"
+    className="bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700"
+  >
+    📞 Call Now
+  </a>
+
+  <Link
+    href="/cart"
+    className="relative text-2xl hover:scale-110 transition"
+  >
+    🛒
+
+   
+      <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+        {cart.length}
+      </span>
+    
+  </Link>
+
+</div>
       </div>
     </header>
   );

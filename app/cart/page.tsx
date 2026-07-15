@@ -124,7 +124,10 @@ export default function CartPage() {
                 <span>₹{total}</span>
               </div>
 
-              <WhatsAppOrderButton />
+              <WhatsAppOrderButton
+  customer={customer}
+  isValid={isValid}
+/>
 
             </div>
           </>
