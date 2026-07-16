@@ -16,9 +16,15 @@ export default function PrescriptionTable() {
   const [prescriptions, setPrescriptions] = useState<
     Prescription[]
   >([]);
-
+  const [search, setSearch] = useState("");
   useEffect(() => {
     fetchPrescriptions();
+  
+    const interval = setInterval(() => {
+      fetchPrescriptions();
+    }, 10000);
+  
+    return () => clearInterval(interval);
   }, []);
 
   const fetchPrescriptions = async () => {
@@ -33,18 +39,44 @@ export default function PrescriptionTable() {
       setPrescriptions(data);
     }
   };
-
+  const updateStatus = async (
+    id: number,
+    status: string
+  ) => {
+    const { error } = await supabase
+      .from("prescriptions")
+      .update({ status })
+      .eq("id", id);
+  
+    if (!error) {
+      fetchPrescriptions();
+    } else {
+      alert("Status update failed.");
+    }
+  };
   return (
     <div className="mt-10 bg-white border rounded-2xl shadow">
 
       <div className="p-6 border-b">
-        <h2 className="text-2xl font-bold">
-          Uploaded Prescriptions
-        </h2>
-      </div>
+      <div className="flex justify-between items-center gap-4">
 
-      <div className="overflow-x-auto">
+<h2 className="text-2xl font-bold">
+  Uploaded Prescriptions
+</h2>
 
+<input
+  type="text"
+  placeholder="Search customer or mobile..."
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+  className="border rounded-lg px-4 py-2 w-80"
+/>
+
+</div>
+
+</div>
+
+<div className="overflow-x-auto">
         <table className="w-full">
 
           <thead className="bg-gray-100">
@@ -77,7 +109,18 @@ export default function PrescriptionTable() {
 
           <tbody>
 
-            {prescriptions.map((item) => (
+          {prescriptions
+  .filter((item) => {
+    const keyword = search.toLowerCase();
+
+    return (
+      item.customer_name
+        .toLowerCase()
+        .includes(keyword) ||
+      item.mobile.includes(keyword)
+    );
+  })
+  .map((item) => (
               <tr
                 key={item.id}
                 className="border-t"
@@ -91,8 +134,26 @@ export default function PrescriptionTable() {
                 </td>
 
                 <td className="p-4">
-                  {item.status}
-                </td>
+  <select
+    value={item.status}
+    onChange={(e) =>
+      updateStatus(item.id, e.target.value)
+    }
+    className="border rounded-lg px-3 py-2"
+  >
+    <option value="Pending">
+      Pending
+    </option>
+
+    <option value="Ready">
+      Ready
+    </option>
+
+    <option value="Delivered">
+      Delivered
+    </option>
+  </select>
+</td>
 
                 <td className="p-4">
                   {new Date(

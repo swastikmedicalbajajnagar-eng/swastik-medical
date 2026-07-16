@@ -1,6 +1,7 @@
 "use client";
-
-import Container from "@/components/ui/Container";
+import RecentPrescriptions from "@/components/admin/RecentPrescriptions";
+import AdminLayout from "@/components/admin/AdminLayout";
+import DashboardCard from "@/components/admin/DashboardCard";
 import Button from "@/components/ui/button";
 import PrescriptionTable from "@/components/admin/PrescriptionTable";
 import { supabase } from "@/lib/supabase";
@@ -10,10 +11,40 @@ export default function AdminDashboard() {
   const router = useRouter();
   const [prescriptionCount, setPrescriptionCount] =
   useState(0);
-
-useEffect(() => {
-  fetchPrescriptionCount();
-}, []);
+  const [medicineCount, setMedicineCount] =
+  useState(0);
+  const [checkingAuth, setCheckingAuth] =
+  useState(true);
+  useEffect(() => {
+    checkAdmin();
+  
+    fetchPrescriptionCount();
+    const fetchMedicineCount = async () => {
+      const { count, error } = await supabase
+        .from("medicines")
+        .select("*", {
+          count: "exact",
+          head: true,
+        });
+    
+      if (!error && count !== null) {
+        setMedicineCount(count);
+      }
+    };
+    fetchMedicineCount();
+  }, []);
+  const checkAdmin = async () => {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+  
+    if (!session) {
+      router.replace("/admin/login");
+      return;
+    }
+  
+    setCheckingAuth(false);
+  };
 const fetchPrescriptionCount = async () => {
   const { count, error } = await supabase
     .from("prescriptions")
@@ -30,9 +61,15 @@ const fetchPrescriptionCount = async () => {
     await supabase.auth.signOut();
     router.push("/admin/login");
   };
-
+  if (checkingAuth) {
+    return (
+      <div className="flex items-center justify-center h-screen text-xl font-semibold">
+        Checking authentication...
+      </div>
+    );
+  }
   return (
-    <Container>
+    <AdminLayout>
       <div className="py-12">
 
         <div className="flex justify-between items-center mb-8">
@@ -49,28 +86,33 @@ const fetchPrescriptionCount = async () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-          <div className="border rounded-2xl p-6 shadow">
-            <h2 className="text-gray-500">
-              Total Prescriptions
-            </h2>
+<DashboardCard
+  title="Total Prescriptions"
+  value={prescriptionCount}
+/>
 
-            <p className="text-4xl font-bold mt-3">
-  {prescriptionCount}
-</p>
+<DashboardCard
+  title="Total Medicines"
+  value={medicineCount}
+  color="text-blue-600"
+/>
+
+<DashboardCard
+  title="Total Orders"
+  value="0"
+  color="text-orange-600"
+/>
+
+<DashboardCard
+  title="Total Sales"
+  value="₹0"
+  color="text-purple-600"
+/>
+
 </div>
-          <div className="border rounded-2xl p-6 shadow">
-            <h2 className="text-gray-500">
-              Total Orders
-            </h2>
-
-            <p className="text-4xl font-bold mt-3">
-              0
-            </p>
-          </div>
-
-        </div>
+<RecentPrescriptions />
         <PrescriptionTable />
       </div>
-    </Container>
+      </AdminLayout>
   );
 }
